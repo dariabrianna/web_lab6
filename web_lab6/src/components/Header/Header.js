@@ -1,9 +1,15 @@
 import * as S from "./styles";
 import { useEffect, useState } from "react";
+import StarRating from "../StarComponent/StarComponent";
+import PopUp from "../PopUp/PopUp";
+
+
 
 const Header = () => {
   const [buttonText, setButtonText] = useState("My Board");
   const [editMode, setEditMode] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
 
   useEffect(() => {
     document.addEventListener("keypress", function (e) {
@@ -30,15 +36,19 @@ const Header = () => {
                 {buttonText}
               </button>
             )}
+                        <StarRating />
+
           </div>
           <div className="container">
+          <button onClick={() => setIsOpenModal(true)}>
+
               <img
                 src="/images/people.png"
                 className="people"
                 alt="people"
               ></img>
               <p>Workspace visible</p>
-
+            </button>
             <button>
               <p>Board</p>
             </button>
@@ -46,6 +56,8 @@ const Header = () => {
           <button></button>
         </div>
       </S.Header>
+      {isOpenModal && <PopUp onClose={() => setIsOpenModal(false)} />}
+
     </>
   );
 };
