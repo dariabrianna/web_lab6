@@ -17,7 +17,11 @@ const Board = () => {
           setCards={setCards}
           index={i}
           className="cards"
-          
+          deleteCard={() => {
+            cards.length > 1
+              ? setCards([...cards.filter((elem, index) => i !== index)])
+              : setCards([...cards]);
+          }}
         />
       ))}
     </S.Board>
