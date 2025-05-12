@@ -1,5 +1,5 @@
 import * as S from "./styles";
-import Card from "../Card/Card.js";
+import Card from "../Card/Card";
 import { useState } from "react";
 
 const Board = () => {

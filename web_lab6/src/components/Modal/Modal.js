@@ -1,4 +1,5 @@
 import * as S from "./styles";
+import CopyList from "../CopyList/CopyList";
 import { useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 
@@ -47,7 +48,19 @@ const Modal = ({ onClose, cards, setCards, deleteCard, index }) => {
             </li>
           </ul>
         </div>
-        
+        {isOpenList && (
+          <CopyList
+            onCloseList={() => setIsOpenList(false)}
+            onClose={onClose}
+            copyCardList={(newTitle) => {
+              const copyCard = [
+                ...cards,
+                { ...cards[index], buttonText: newTitle },
+              ];
+              setCards([...copyCard]);
+            }}
+          />
+        )}
       </S.Modal>
     </OutsideClickHandler>
   );
