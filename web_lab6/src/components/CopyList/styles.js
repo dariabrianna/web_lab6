@@ -1,54 +1,56 @@
+// src/components/CopyList/styles.js
 import styled from "styled-components";
 
 export const CopyList = styled.div`
   width: 100%;
-  max-height: 200px;
   max-width: 300px;
-  background-color: white;
+  max-height: 200px;
+  background-color: ${({ theme }) => theme.popupBg};
   border-radius: 8px;
-  color: #44546f;
+  color: ${({ theme }) => theme.textColor};
   position: absolute;
-  border: grey 1px solid;
+  border: 1px solid ${({ theme }) => theme.borderColor};
   font-size: 14px;
   left: 260px;
   top: 162px;
   z-index: 3;
-  display: block;
   display: flex;
   flex-direction: column;
   justify-content: center;
   line-height: 20px;
+
   div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
   }
+
   img {
     max-width: 16px;
     height: auto;
     position: absolute;
   }
+
   img:first-of-type {
     top: -6%;
     right: -6%;
   }
+
   p {
     padding: 6px;
   }
+
   button {
-    background-color: #0079bf;
-    border-width: 0;
-    font-weight: inherit;
-    line-height: inherit;
+    background-color: ${({ theme }) => theme.buttonBg};
+    color: ${({ theme }) => theme.buttonText};
+    border: none;
     padding: 10px 16px;
-    margin-top: 14px;
-    width: fit-content;
+    margin: 14px auto 4px;
     border-radius: 6px;
-    font-weight: 400;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
-      Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
-    margin-bottom: 4px;
     font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
   }
 `;

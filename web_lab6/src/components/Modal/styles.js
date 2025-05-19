@@ -1,27 +1,34 @@
+// src/components/Modal/styles.js
 import styled from "styled-components";
 
 export const Modal = styled.div`
   width: 100%;
-  max-height: 500px;
   max-width: 300px;
-  background-color: white;
+  max-height: 500px;
+  background-color: ${({ theme }) => theme.popupBg};
   border-radius: 8px;
-  color: #44546f;
+  color: ${({ theme }) => theme.textColor};
   position: absolute;
-  border: grey 1px solid;
+  border: 1px solid ${({ theme }) => theme.borderColor};
   font-size: 14px;
   left: 260px;
   top: 162px;
   z-index: 3;
-  display: block;
   display: flex;
   flex-direction: column;
   justify-content: center;
   line-height: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+   top: 0;
+  left: calc(100% + 8px);   /* 8 px spaţiu între card şi pop-up */
+transform: none;
   h1 {
     font-size: 14px;
     font-weight: 400;
   }
+
   img {
     max-width: 16px;
     height: auto;
@@ -30,19 +37,20 @@ export const Modal = styled.div`
     right: 0%;
     cursor: pointer;
   }
+
   div {
+    padding: 6px;
     display: flex;
     flex-direction: column;
     line-height: 20px;
-    padding: 6px;
   }
+
   div:first-child {
-    margin-bottom: 8px;
+    margin: 0 12px 8px;
     position: relative;
     text-align: center;
-    border-bottom: 1px solid var(--ds-border, #091e4221);
+    border-bottom: 1px solid ${({ theme }) => theme.borderColor};
     line-height: 40px;
-    margin: 0 12px;
     font-size: 14px;
   }
 
@@ -50,12 +58,13 @@ export const Modal = styled.div`
     list-style-type: none;
     line-height: 28px;
     padding: 5px;
-    border-bottom: 1px solid var(--ds-border, #091e4221);
+    border-bottom: 1px solid ${({ theme }) => theme.borderColor};
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: auto 0;
   }
+
   ul {
     list-style-type: none;
     line-height: 20px;
@@ -65,13 +74,9 @@ export const Modal = styled.div`
     justify-content: center;
     margin: auto 0;
   }
-  span {
-    padding: 5px;
-  }
+
   li:hover {
-    border: 2px;
-    cursor: pointer;
     background-color: var(--ds-background-neutral-hovered, #091e420a);
-    width: 100%;
+    cursor: pointer;
   }
 `;

@@ -1,44 +1,69 @@
+import React from "react";
 import * as S from "./styles";
 
-const PopUp = ({ onClose }) => {
+/**
+ * Vizibilitățile disponibile și metadatele lor
+ * (înlocuiește căile spre imagini cu cele reale din proiectul tău)
+ */
+const VISIBILITY_OPTIONS = [
+  {
+    id: "private",
+    icon: "/images/lock.png",
+    title: "Private",
+    description: "Only board members can see and edit this board.",
+  },
+  {
+    id: "workspace",
+    icon: "/images/people.png",
+    title: "Workspace",
+    description:
+      "All members of the admin's workspace can see and edit this board.",
+  },
+  {
+    id: "public",
+    icon: "/images/globe.png",
+    title: "Public",
+    description:
+      "Anyone on the internet can see this board. Only board members can edit it.",
+  },
+];
+
+/**
+ * Pop-up pentru schimbarea vizibilității unui board.
+ *
+ * Props:
+ *  – onClose   → funcție care închide fereastra
+ *  – onSelect  → (opțional) primește `id`-ul opțiunii selectate
+ */
+const PopUp = ({ onClose, onSelect }) => {
   return (
     <S.PopUp>
+      {/* Buton X pentru închidere */}
       <img
         src="/images/closing.png"
+        alt="close"
         className="close"
         onClick={onClose}
-        alt="this"
       />
+
       <h1>Change visibility</h1>
 
       <ul>
-        <li>
-          <span>
-            <img src="/images/lock.png" alt="this"></img>
-
-            <h2>Private</h2>
-          </span>
-          <p>Only board members can see and edit this board.</p>
-        </li>
-        <li>
-          <span>
-            <img src="/images/people.png" alt="this"></img>
-            <h2>Workspace</h2>
-          </span>
-          <p>
-            All members of the admin's workspace can see and edit this board.
-          </p>
-        </li>
-        <li>
-          <span>
-            <img src="/images/globe.png" alt="this"></img>
-            <h2>Public</h2>
-          </span>
-          <p>
-            Anyone on the internet can see this board. Only board members can
-            edit it.
-          </p>
-        </li>
+        {VISIBILITY_OPTIONS.map(({ id, icon, title, description }) => (
+          <li
+            key={id}
+            onClick={() => {
+              onSelect?.(id);
+              onClose();
+            }}
+          >
+            <img src={icon} alt="" />
+            <span>
+              <strong>{title}</strong>
+              <p>{description}</p>
+            </span>
+          </li>
+        ))}
       </ul>
     </S.PopUp>
   );

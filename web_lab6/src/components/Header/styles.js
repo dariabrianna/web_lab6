@@ -1,103 +1,81 @@
+// src/components/Header/styles.js
 import styled from "styled-components";
 
 export const Header = styled.div`
   height: 65px;
-  max-height: 100px;
   width: 100%;
   display: flex;
   position: fixed;
-  font-family: sans-serif;
-  background-color: rgb(128, 128, 128);
   top: 0;
   z-index: 9;
+  background-color: ${({ theme }) => theme.headerBg};
+  color: ${({ theme }) => theme.textColor};
+  font-family: sans-serif;
 
   .board-header {
     display: flex;
-    color: white;
-    div {
+    align-items: center;
+    width: 100%;
+    gap: 24px;  
+
+    .box {
       display: flex;
       align-items: center;
-      button {
-        margin-left: 16px;
-      }
+       gap: 12px;  
     }
-  }
-
-  p {
-    font-weight: 300;
-    font-size: 16px;
-  }
-
-  p:hover {
-    border-radius: 6px;
-    border: 2px;
-    cursor: pointer;
-    background-color: rgb(255, 255, 255, 0.5);
-    padding: 8px;
   }
 
   button,
   .changeText {
-    background-color: transparent;
+    background: transparent;
     border: none;
-    margin: 0;
-    padding: 0;
-    text-align: inherit;
     font: inherit;
-  }
-  .changeText:hover {
-    border-radius: 6px;
-    border: 2px;
     cursor: pointer;
-    background-color: rgb(255, 255, 255, 0.5);
+    color: ${({ theme }) => theme.textColor};
+     padding: 0 12px;
+  }
+
+  .changeText:hover,
+  p:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
     padding: 8px;
   }
 
-  .changeText {
-    font-size: 20px;
-    font-weight: 500;
-    padding-right: 8px;
-    padding-left: 8px;
-  }
-
-  .title {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 22px 20px;
-    border-left: 1px solid var(--dynamic-text-transparent);
-    padding: 8px;
-  }
-
-  .star {
-    max-width: 24px;
-    border-right: 1px solid grey;
-    padding: 8px;
-    margin-right: 8px;
-  }
-  .people {
-    max-width: 36px;
-    padding-right: 16px;
+  p {
+    font-size: 16px;
+    font-weight: 300;
+    margin-right: 20px;
   }
 
   .container {
     display: flex;
+    align-items: center;
+
+  /* iconița „people” din dreapta */
+  .people {
+    width: 24px;      /* lățimea dorită */
+    height: 24px;     /* înălțimea dorită */
+    object-fit: contain;   /* păstrează proporțiile */
+    margin-right: 8px;
+  }
+
+
     button {
       display: flex;
-      flex-direction: row;
       align-items: center;
-      border-right: 1px solid grey;
-    }
-    p {
-      margin-right: 20px;
-      padding: 8px;
+      border-right: 1px solid ${({ theme }) => theme.borderColor};
     }
   }
 
   .binput {
     width: 100%;
     padding: 8px;
-    margin: 10px 10px;
+    margin: 10px;
     border-radius: 10px;
     font-family: sans-serif;
+    color: ${({ theme }) => theme.textColor};
+    background-color: ${({ theme }) => theme.popupBg};
+    border: 1px solid ${({ theme }) => theme.borderColor};
   }
 `;

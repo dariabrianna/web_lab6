@@ -1,84 +1,96 @@
+// src/components/PopUp/styles.js
 import styled from "styled-components";
 
 export const PopUp = styled.div`
-  background-color: white;
-  border-radius: 8px;
-  max-height: 500px;
-  max-width: 720px;
-  width: 332px;
-  display: block;
-  color: #44546f;
+  font-family: ${({ theme }) => theme.fontFamily || "sans-serif"};
+  font-weight: 400;
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border: white 1px solid;
-  font-size: 14px;
   top: 67px;
   left: 120px;
-  padding-top: 10px;
   z-index: 3;
-  li {
-    list-style-type: none;
-    span {
-      display: flex;
-      align-items: center;
-    }
-  }
-  ul {
-    padding-left: 0;
-    height: -webkit-fill-available;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-start;
-    margin: 0;
-  }
+  width: 332px;
+  max-width: 720px;
+  max-height: 500px;
+  padding: 12px 0 16px;
+  background-color: ${({ theme }) => theme.popupBg};
+  color: ${({ theme }) => theme.textColor};
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.borderColor};
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
 
   h1 {
-    padding-top: 6px;
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: #44546f solid 0.5px;
-    font-weight: 400;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 12px;
+    text-align: center;
+    border-bottom: 1px solid ${({ theme }) => theme.borderColor};
     padding-bottom: 12px;
   }
-  h2 {
-    font-weight: 400;
-    font-size: 15px;
-    padding-left: 4px;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
-  p {
-    line-height: 160%;
-  }
-  img {
-    max-width: 16px;
-    height: auto;
-  }
+
+  /* un singur item din listă */
   li {
-    padding: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;               /* spaţiu între icon şi text */
+    padding: 12px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
   }
-  li:nth-of-type(2) img {
-    max-width: 25px;
-    width: 100%;
-    height: auto;
+
+  li:hover {
+    background-color: rgba(0, 0, 0, 0.06);
   }
-  li:nth-of-type(3) img {
-    max-width: 17px;
-    width: 100%;
-    height: auto;
+
+  /* icon-ul din stânga */
+  li img {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;        /* aliniază iconul cu titlul */
+    object-fit: contain;
   }
+
+  /* wrapper pentru text (titlu + descriere) */
+  li .texts {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* titlul opţiunii (Private, Workspace, Public) */
+  li .label {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  /* descrierea scurtă */
+  li .desc {
+    font-size: 13px;
+    color: ${({ theme }) => theme.textSecondary};
+    line-height: 1.35;
+    max-width: 240px;
+  }
+
+  /* butonul X */
   .close {
     position: absolute;
-    right: 2%;
-    top: 2%;
-    cursor: pointer;
-  }
-  li:hover {
-    background-color: var(--ds-background-neutral-hovered, #091e420a);
+    top: 12px;
+    right: 12px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
   }
 `;
