@@ -1,55 +1,77 @@
-import { useState, useMemo } from "react";
-import * as S from "./styles";
+import React, { useState, useEffect } from "react";
+import * as S from "./styles"; // include și AddListCard, BoardHeader etc.
+
 import Card from "../Card/Card";
 import SearchBar from "../SearchBar/SearchBar";
+import { listCards, createCard } from "../../services/cardService";
+
+const BOARD_ID = 1;
 
 const Board = () => {
-  // carduri demo inițiale
-  const [cards, setCards] = useState([
-    {
-      buttonText: "Enter list title...",
-      tasks: ["Enter your task"],
-    },
-  ]);
+  const [cards, setCards]     = useState([]);
+  const [filter, setFilter]   = useState("");
+  const [loading, setLoading] = useState(true);
 
-  // textul introdus în SearchBar
-  const [filter, setFilter] = useState("");
+  const limit = 50;
+  const skip  = 0;
 
-  // filtrare simplă: titlu card sau oricare task conține textul (case-insensitive)
-  const visibleCards = useMemo(() => {
-    if (!filter.trim()) return cards;
-    const q = filter.toLowerCase();
-    return cards.filter(
-      c =>
-        c.buttonText.toLowerCase().includes(q) ||
-        c.tasks.some(t => t.toLowerCase().includes(q))
-    );
-  }, [cards, filter]);
+  const refresh = async () => {
+    setLoading(true);
+    try {
+      const res = await listCards(BOARD_ID, skip, limit);
+      const data = res.data;
+
+      if (Array.isArray(data)) {
+        setCards(data);
+      } else if (Array.isArray(data.cards)) {
+        setCards(data.cards);
+      } else {
+        console.error("Eroare: res.data nu este un array.");
+        setCards([]);
+      }
+    } catch (err) {
+      console.error("Eroare la încărcarea cardurilor:", err);
+      setCards([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  const handleAddList = async () => {
+    try {
+      await createCard(BOARD_ID, "Untitled list");
+      refresh();
+    } catch (err) {
+      console.error("Eroare la adăugarea cardului:", err);
+    }
+  };
 
   return (
     <>
-      {/* filtrul – îl poți muta în Header dacă preferi */}
-      <SearchBar value={filter} onChange={setFilter} />
+      <S.BoardHeader>
+        <SearchBar filter={filter} setFilter={setFilter} />
+      </S.BoardHeader>
 
       <S.Board>
-        {visibleCards.map((elem, i) => (
-          <Card
-            key={i}
-            elem={elem}
-            cards={cards}
-            setCards={setCards}
-            index={i}
-            className="cards"
-            deleteCard={() => {
-              cards.length > 1
-                ? setCards(cards.filter((_, idx) => idx !== i))
-                : setCards([...cards]);
-            }}
-          />
-        ))}
+        {!loading &&
+          Array.isArray(cards) &&
+          cards
+            .filter(card => card.title.toLowerCase().includes(filter.toLowerCase()))
+            .map(card => (
+              <Card key={card.id} card={card} refresh={refresh} />
+            ))}
+
+        <S.AddListCard onClick={handleAddList}>
+          + Add list
+        </S.AddListCard>
       </S.Board>
     </>
   );
 };
+
 
 export default Board;

@@ -1,62 +1,67 @@
+// src/components/Task/Task.jsx
+import { useState, useEffect } from "react";
 import * as S from "./styles";
-import { useEffect, useState } from "react";
 
-const Task = ({
-  elem,
-  setCards,
-  index,
-  tasks,
-  cards,
-  cardIndex,
-  deleteTask,
-}) => {
+import {
+  updateTask as updateTaskApi,
+  deleteTask as deleteTaskApi,
+} from "../../services/taskService";
+
+const Task = ({ task, refresh, setIsOpenModal, onDelete }) => {
   const [editMode, setEditMode] = useState(false);
+  const [localText, setLocalText] = useState(task.text);
 
+  // Keep localText in sync if task.text changes from above
   useEffect(() => {
-    document.addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        setEditMode(false);
-      }
-    });
-  }, []);
+    setLocalText(task.text);
+  }, [task.text]);
 
-  console.log(cards);
+  // Save when input loses focus
+  const handleBlur = async () => {
+    if (localText !== task.text) {
+      await updateTaskApi(task.id, { text: localText });
+      refresh();
+    }
+    setEditMode(false);
+  };
 
-  const handleTaskChange = (cardIndex, taskIndex, newTask) => {
-    // Copy the cards array
-    const newCards = [...cards];
+  // Also save & exit edit mode on Enter key
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.target.blur();
+    }
+  };
 
-    // Copy the tasks array of the card we're changing
-    const newTasks = [...newCards[cardIndex].tasks];
-
-    // Update the task
-    newTasks[taskIndex] = newTask;
-
-    // Update the tasks array of the card
-    newCards[cardIndex].tasks = newTasks;
-    console.log(newCards);
-    // Update the state
-    setCards(newCards);
+  // Trigger the parent‐provided delete handler (e.g. open modal)
+  const handleDeleteClick = () => {
+    setIsOpenModal(true);
+    onDelete?.();
   };
 
   return (
-    <S.Task onBlur={() => setEditMode(false)}>
+    <S.Task>
       {editMode ? (
         <input
           className="cardname"
-          type="textarea"
-          value={elem}
-          onChange={(e) => handleTaskChange(cardIndex, index, e.target.value)}
+          value={localText}
+          onChange={(e) => setLocalText(e.target.value)}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
           placeholder="New Task"
+          autoFocus
         />
       ) : (
-        <button onClick={() => setEditMode(true)}>{elem}</button>
+        <button onClick={() => setEditMode(true)}>
+          {task.text}
+        </button>
       )}
+
       <img
         src="/images/bin.png"
-        alt="informative"
+        alt="delete"
         className="deletetask"
-        onClick={() => deleteTask()}
+        onClick={setIsOpenModal}
       />
     </S.Task>
   );

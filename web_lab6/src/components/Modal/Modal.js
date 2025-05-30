@@ -1,68 +1,42 @@
 import * as S from "./styles";
-import CopyList from "../CopyList/CopyList";
 import { useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
 
-const Modal = ({ onClose, cards, setCards, deleteCard, index }) => {
-  const [isOpenList, setIsOpenList] = useState(false);
-
+const Modal = ({ onClose, onDelete }) => {
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  console.log('here');
   return (
-    <OutsideClickHandler onOutsideClick={() => onClose()}>
+    <S.Overlay>
+    <OutsideClickHandler onOutsideClick={onClose}>
       <S.Modal>
-        <div>
+        <div className="modal-header">
           <h1>List actions</h1>
           <img
             src="/images/closing.png"
             className="close"
             onClick={onClose}
-            alt="this"
+            alt="close"
           />
         </div>
-        <div>
-          <ul className="list">
-            <li
-              onClick={() => {
-                setCards([
-                  ...cards,
-                  {
-                    buttonText: "Enter list title...",
-                    tasks: ["Enter your task"],
-                  },
-                ]);
-                onClose();
-              }}
-            >
-              Add card...
-            </li>
-            <li onClick={() => setIsOpenList(true)}>Copy card...</li>
-          </ul>
 
-          <ul>
-            <li
-              onClick={() => {
-                deleteCard();
-                onClose();
-              }}
-            >
-              Delete this card
-            </li>
-          </ul>
+        <div className="modal-body">
+          {!confirmDelete ? (
+            <ul>
+              <li onClick={() => setConfirmDelete(true)}>
+                Delete this card
+              </li>
+            </ul>
+          ) : (
+            <div className="confirm-delete" style={{marginTop: '15px'}}>
+              <p>Are you sure you want to delete this card?</p>
+              <button onClick={onDelete} style={{marginRight: '15px'}}>Yes, delete</button>
+              <button onClick={onClose}>Cancel</button>
+            </div>
+          )}
         </div>
-        {isOpenList && (
-          <CopyList
-            onCloseList={() => setIsOpenList(false)}
-            onClose={onClose}
-            copyCardList={(newTitle) => {
-              const copyCard = [
-                ...cards,
-                { ...cards[index], buttonText: newTitle },
-              ];
-              setCards([...copyCard]);
-            }}
-          />
-        )}
       </S.Modal>
     </OutsideClickHandler>
+    </S.Overlay>
   );
 };
 

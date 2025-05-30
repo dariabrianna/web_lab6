@@ -1,82 +1,55 @@
-// src/components/Modal/styles.js
 import styled from "styled-components";
 
+export const Overlay = styled.div`
+position: absolute;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+background: rgba(0,0,0,0.5);
+`
+
 export const Modal = styled.div`
-  width: 100%;
-  max-width: 300px;
-  max-height: 500px;
-  background-color: ${({ theme }) => theme.popupBg};
-  border-radius: 8px;
-  color: ${({ theme }) => theme.textColor};
-  position: absolute;
-  border: 1px solid ${({ theme }) => theme.borderColor};
-  font-size: 14px;
-  left: 260px;
-  top: 162px;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: 20px;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-   top: 0;
-  left: calc(100% + 8px);   /* 8 px spaţiu între card şi pop-up */
-transform: none;
+  width: 260px;
+  background-color: ${({ theme }) => theme.popupBg};
+  border: 1px solid ${({ theme }) => theme.borderColor};
+  border-radius: 8px;
+  color: ${({ theme }) => theme.textColor};
+  z-index: 999;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
   h1 {
     font-size: 14px;
-    font-weight: 400;
+    margin-bottom: 10px;
   }
 
-  img {
+  img.close {
     max-width: 16px;
-    height: auto;
     position: absolute;
-    top: 33%;
-    right: 0%;
+    top: 8px;
+    right: 8px;
     cursor: pointer;
   }
 
-  div {
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    line-height: 20px;
-  }
-
-  div:first-child {
-    margin: 0 12px 8px;
-    position: relative;
-    text-align: center;
-    border-bottom: 1px solid ${({ theme }) => theme.borderColor};
-    line-height: 40px;
-    font-size: 14px;
-  }
-
-  .list {
-    list-style-type: none;
-    line-height: 28px;
-    padding: 5px;
-    border-bottom: 1px solid ${({ theme }) => theme.borderColor};
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: auto 0;
-  }
-
   ul {
-    list-style-type: none;
-    line-height: 20px;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: auto 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    padding: 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
   }
 
   li:hover {
-    background-color: var(--ds-background-neutral-hovered, #091e420a);
+    background-color: #f0f0f0;
     cursor: pointer;
   }
 `;
